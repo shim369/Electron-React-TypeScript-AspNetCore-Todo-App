@@ -1,0 +1,38 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Electron App</title>
+  </head>
+  <body>
+    <h1>Welcome to My Electron App!</h1>
+    <button id="fetchData">Fetch Data</button>
+    <p id="message"></p>
+    <p id="info"></p>
+
+    <script>
+      const fetchDataButton = document.getElementById("fetchData");
+      const message = document.getElementById("message");
+
+      fetchDataButton.addEventListener("click", async () => {
+        try {
+          const response = await fetch("http://localhost:3003/api/data"); // APIエンドポイント
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          message.textContent = `Message: ${data.message}, Timestamp: ${data.timestamp}`;
+        } catch (error) {
+          message.textContent = `Error: ${error.message}`;
+        }
+      });
+
+      // Node.jsとElectronのバージョン情報を表示
+      document.getElementById(
+        "info"
+      ).innerText = `This app is using Node.js (v${versions.node()}), and Electron (v${versions.electron()})`;
+    </script>
+  </body>
+</html>
