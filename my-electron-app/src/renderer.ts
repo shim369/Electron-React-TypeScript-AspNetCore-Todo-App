@@ -1,8 +1,18 @@
 import { Todo } from "./types/todo";
 
+function formatDate(deadline: Date): string {
+  const date = new Date(deadline);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}.${month}.${day}`;
+}
+
 window.addEventListener("load", async () => {
   try {
-    const response = await fetch("http://localhost:3003/api/todo");
+    const response = await fetch("http://localhost:5266/tasks");
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -14,6 +24,7 @@ window.addEventListener("load", async () => {
     const categoryMap: Record<number, string> = {
       1: "category1",
       2: "category2",
+      3: "category3",
     };
 
     data.forEach((todo: Todo) => {
@@ -23,12 +34,15 @@ window.addEventListener("load", async () => {
       // マッピングを使ってカテゴリを取得
       const categoryText = categoryMap[todo.category] || "unknown category";
 
+      const formattedDeadline = formatDate(todo.deadline);
+
       row.innerHTML = `
         <td class="py-3 px-6">${todo.id}</td>
         <td class="py-3 px-6">${categoryText}</td>
         <td class="py-3 px-6">${todo.title}</td>
         <td class="py-3 px-6">${todo.detail}</td>
-        <td class="py-3 px-6">${todo.date}</td>
+        <td class="py-3 px-6"><a href=${todo.url}>${todo.url}</a></td>
+        <td class="py-3 px-6">${formattedDeadline}</td>
       `;
       tableBody.appendChild(row);
     });

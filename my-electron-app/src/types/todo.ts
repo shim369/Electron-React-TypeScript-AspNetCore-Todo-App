@@ -3,5 +3,6 @@ export interface Todo {
   category: number;
   title: string;
   detail: string;
-  date: string;
+  url: string;
+  deadline: Date;
 }
