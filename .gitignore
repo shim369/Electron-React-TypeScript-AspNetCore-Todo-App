@@ -1,2 +1,58 @@
 node_modules/
 .DS_Store
+
+README.md
+# ASP.NET Core
+## Ignore build outputs
+bin/
+obj/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Auto-generated files
+*.dbmdl
+*.mdf
+*.log
+*.ldf
+*.ndf
+*.svclog
+*.pidb
+*.suo
+*.userprefs
+*.csproj.user
+*.csproj.vspscc
+*.vbproj.user
+*.vbproj.vspscc
+.vscode/
+
+# macOS specific files
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Visual Studio Code workspace and extension settings
+.vscode/
+
+# JetBrains Rider
+.idea/
+.idea/
+
+# Database files
+*.sqlite
+*.db
+*.bak
+*.mdf
+
+# Secrets files
+appsettings.Development.json
+secrets.json
+
+# Web config
+web.config
