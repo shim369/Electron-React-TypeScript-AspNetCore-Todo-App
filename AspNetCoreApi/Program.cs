@@ -46,6 +46,12 @@ app.MapDelete("/tasks/{id}", async (AppDbContext db, int id) =>
 
 app.MapPost("/tasks", async (AppDbContext db, TaskItem task) =>
 {
+    // DeadlineがUTCであることを確認
+    if (task.Deadline.Kind != DateTimeKind.Utc)
+    {
+        task.Deadline = DateTime.SpecifyKind(task.Deadline, DateTimeKind.Utc);
+    }
+
     db.Tasks.Add(task);
     await db.SaveChangesAsync();
     return Results.Created($"/tasks/{task.Id}", task);

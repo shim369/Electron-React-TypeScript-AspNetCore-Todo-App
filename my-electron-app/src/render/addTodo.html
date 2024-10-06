@@ -16,7 +16,7 @@
         </nav>
     </header>
     <main class="w-full p-6 bg-white mt-6">
-        <form action="" method="post" class="space-y-6">
+        <form id="todoForm" class="space-y-6">
             <div class="flex flex-col">
                 <label for="category" class="text-lg font-medium mb-2">Category</label>
                 <select name="category" id="category" class="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full">
@@ -33,12 +33,18 @@
 
             <div class="flex flex-col">
                 <label for="detail" class="text-lg font-medium mb-2">Detail</label>
-                <textarea id="detail" name="" class="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full" placeholder="Enter details" rows="4"></textarea>
+                <textarea id="detail" class="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full" placeholder="Enter details" rows="4"></textarea>
             </div>
 
             <div class="flex flex-col">
                 <label for="url" class="text-lg font-medium mb-2">URL</label>
                 <input id="url" type="text" class="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full" placeholder="Enter URL">
+            </div>
+
+            <!-- 期限の追加 -->
+            <div class="flex flex-col">
+                <label for="deadline" class="text-lg font-medium mb-2">Deadline</label>
+                <input id="deadline" type="date" class="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full">
             </div>
 
             <div>
