@@ -8,6 +8,17 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));  // Npgsql を使用して PostgreSQL に接続
 
+// CORS 設定を追加
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", builder =>
+    {
+        builder.WithOrigins("http://localhost:5173")
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
+
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -23,6 +34,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// CORS を適用
+app.UseCors("AllowSpecificOrigin");
 
 // Tasks エンドポイントを追加
 app.MapGet("/tasks", async (AppDbContext db) =>
@@ -58,7 +72,6 @@ app.MapPost("/tasks", async (AppDbContext db, TaskItem task) =>
 })
 .WithName("CreateTask")
 .WithOpenApi();
-
 
 app.MapGet("/tasks/{id}", async (AppDbContext db, int id) =>
 {
