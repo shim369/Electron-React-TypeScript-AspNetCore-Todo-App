@@ -1,7 +1,7 @@
-import Versions from './components/Versions'
 import Header from './components/Header'
 import { useEffect, useState } from 'react'
 import { Todo } from './types/todo'
+import Footer from './components/Footer'
 
 const categoryMap: Record<number, string> = {
   1: 'category1',
@@ -166,7 +166,7 @@ function App(): JSX.Element {
           </form>
         </section>
       </main>
-      <Versions></Versions>
+      <Footer />
     </>
   )
 }

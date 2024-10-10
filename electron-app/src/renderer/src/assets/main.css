@@ -13,6 +13,36 @@ header a {
   margin-left: 20px;
 }
 
+header a:hover {
+  opacity: 0.8;
+}
+
 main {
   padding: 20px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  padding: 20px;
+  border: solid 1px #fff;
+}
+
+.versions {
+  display: flex;
+  justify-content: center;
+}
+
+.versions li {
+  margin: 0 5px;
+}
+
+.footer {
+  width: 100%;
+  color: #fff;
+  text-align: center;
 }
