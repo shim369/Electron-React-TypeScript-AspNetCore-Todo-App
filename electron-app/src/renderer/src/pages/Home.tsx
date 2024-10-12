@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react'
 import { Todo } from '../types/todo'
 
-const categoryMap: Record<number, string> = {
-  1: 'category1',
-  2: 'category2',
-  3: 'category3'
-}
-
-function formatDate(deadline: Date): string {
-  const date = new Date(deadline)
-  const year = date.getFullYear()
-  const month = String(date.getMonth() + 1).padStart(2, '0')
-  const day = String(date.getDate()).padStart(2, '0')
-  return `${year}.${month}.${day}`
-}
-
 function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
   const [selectedCategory, setSelectedCategory] = useState(localStorage.getItem('category') || '0')
+
+  const categoryMap: Record<number, string> = {
+    1: 'category1',
+    2: 'category2',
+    3: 'category3'
+  }
+
+  function formatDate(deadline: Date): string {
+    const date = new Date(deadline)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}.${month}.${day}`
+  }
 
   useEffect(() => {
     const loadTodos = async () => {
@@ -44,6 +44,19 @@ function Home() {
     }
     return todo.category === parseInt(selectedCategory, 10)
   })
+
+  const handleDelete = async (id: number) => {
+    try {
+      const response = await fetch(`http://localhost:5266/tasks/${id}`, {
+        method: 'DELETE'
+      })
+      if (!response.ok) throw new Error('Failed to delete the task')
+
+      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id))
+    } catch (error) {
+      console.error('Error deleting todo:', error)
+    }
+  }
 
   return (
     <>
@@ -78,7 +91,9 @@ function Home() {
                   <button className="btn btn-secondary">Edit</button>
                 </td>
                 <td>
-                  <button className="btn btn-secondary">Delete</button>
+                  <button className="btn btn-secondary" onClick={() => handleDelete(todo.id)}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
