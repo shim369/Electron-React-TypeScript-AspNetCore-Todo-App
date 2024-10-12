@@ -1,22 +1,18 @@
 import { useEffect, useState } from 'react'
 import { Todo } from '../types/todo'
+import { useNavigate } from 'react-router-dom'
+import { formatDate } from '@renderer/utils/dateUtils'
 
 function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
   const [selectedCategory, setSelectedCategory] = useState(localStorage.getItem('category') || '0')
 
+  const navigate = useNavigate()
+
   const categoryMap: Record<number, string> = {
     1: 'category1',
     2: 'category2',
     3: 'category3'
-  }
-
-  function formatDate(deadline: Date): string {
-    const date = new Date(deadline)
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-    return `${year}.${month}.${day}`
   }
 
   useEffect(() => {
@@ -33,15 +29,12 @@ function Home() {
     loadTodos()
   }, [])
 
-  useEffect(() => {
-    const categoryFromStorage = localStorage.getItem('category') || '0'
-    setSelectedCategory(categoryFromStorage)
-  }, [localStorage.getItem('category')])
-
   const filteredTodos = todos.filter((todo) => {
     if (selectedCategory === '0') {
+      console.log(setSelectedCategory)
       return true
     }
+    console.log(setSelectedCategory)
     return todo.category === parseInt(selectedCategory, 10)
   })
 
@@ -56,6 +49,10 @@ function Home() {
     } catch (error) {
       console.error('Error deleting todo:', error)
     }
+  }
+
+  const handleEdit = (id: number) => {
+    navigate(`/task/edit/${id}`)
   }
 
   return (
@@ -88,7 +85,9 @@ function Home() {
                 </td>
                 <td>{formatDate(todo.deadline)}</td>
                 <td>
-                  <button className="btn btn-secondary">Edit</button>
+                  <button className="btn btn-secondary" onClick={() => handleEdit(todo.id)}>
+                    Edit
+                  </button>
                 </td>
                 <td>
                   <button className="btn btn-secondary" onClick={() => handleDelete(todo.id)}>
