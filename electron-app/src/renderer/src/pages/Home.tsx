@@ -44,6 +44,8 @@ function Home() {
               <th scope="col">Detail</th>
               <th scope="col">URL</th>
               <th scope="col">Date</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -59,6 +61,12 @@ function Home() {
                   </a>
                 </td>
                 <td>{formatDate(todo.deadline)}</td>
+                <td>
+                  <button className="btn btn-secondary">Edit</button>
+                </td>
+                <td>
+                  <button className="btn btn-secondary">Delete</button>
+                </td>
               </tr>
             ))}
           </tbody>

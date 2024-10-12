@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <Header />
-      <main className="container bg-white p-4">
+      <main className="bg-white p-4">
         <MyRouter />
       </main>
       <Footer />
