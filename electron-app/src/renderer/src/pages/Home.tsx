@@ -17,7 +17,8 @@ function formatDate(deadline: Date): string {
 
 function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
-  // Fetch tasks
+  const [selectedCategory, setSelectedCategory] = useState(localStorage.getItem('category') || '0')
+
   useEffect(() => {
     const loadTodos = async () => {
       try {
@@ -31,6 +32,18 @@ function Home() {
     }
     loadTodos()
   }, [])
+
+  useEffect(() => {
+    const categoryFromStorage = localStorage.getItem('category') || '0'
+    setSelectedCategory(categoryFromStorage)
+  }, [localStorage.getItem('category')])
+
+  const filteredTodos = todos.filter((todo) => {
+    if (selectedCategory === '0') {
+      return true
+    }
+    return todo.category === parseInt(selectedCategory, 10)
+  })
 
   return (
     <>
@@ -49,7 +62,7 @@ function Home() {
             </tr>
           </thead>
           <tbody>
-            {todos.map((todo) => (
+            {filteredTodos.map((todo) => (
               <tr key={todo.id}>
                 <td>{todo.id}</td>
                 <td>{categoryMap[todo.category]}</td>
