@@ -12,8 +12,11 @@ function Header(): JSX.Element {
         <Link to="/" className="me-4 text-dark text-decoration-none">
           Home
         </Link>
-        <Link to="/task/add" className="text-dark text-decoration-none">
+        <Link to="/task/add" className="me-4 text-dark text-decoration-none">
           Add Todo
+        </Link>
+        <Link to="/settings" className="text-dark text-decoration-none">
+          Settings
         </Link>
       </nav>
     </header>

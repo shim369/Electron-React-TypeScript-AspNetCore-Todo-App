@@ -44,7 +44,7 @@ function Add() {
   return (
     <>
       <section id="addTodo">
-        <h2 className="text-xl mb-4">Add a New Todo</h2>
+        <h2 className="text-xl mb-4">Add Todo</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="mb-3">
             <label htmlFor="title" className="form-label">
