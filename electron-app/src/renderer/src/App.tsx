@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <Header />
-      <main className="flex-1 p-4 my-3 h-100">
+      <main className="flex-grow-1 p-4 my-3 h-100">
         <MyRouter />
       </main>
       <Footer />
