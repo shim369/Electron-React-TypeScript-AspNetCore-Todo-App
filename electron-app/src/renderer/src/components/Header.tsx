@@ -2,13 +2,19 @@ import { Link } from 'react-router-dom'
 
 function Header(): JSX.Element {
   return (
-    <header className="flex justify-between items-center p-6 bg-gray-200">
-      <h1 className="text-2xl font-bold">Electron Todo App</h1>
+    <header className="d-flex justify-content-between align-items-center p-4">
+      <h1 className="text-2xl font-bold">
+        <Link to="/" className="text-dark text-decoration-none">
+          Electron Todo App
+        </Link>
+      </h1>
       <nav>
-        <Link to="/" className="mr-4">
+        <Link to="/" className="me-4 text-dark text-decoration-none">
           Home
         </Link>
-        <Link to="/task/add">Add Todo</Link>
+        <Link to="/task/add" className="text-dark text-decoration-none">
+          Add Todo
+        </Link>
       </nav>
     </header>
   )

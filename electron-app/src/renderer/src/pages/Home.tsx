@@ -17,7 +17,7 @@ function formatDate(deadline: Date): string {
 
 function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
-  // タスクの取得
+  // Fetch tasks
   useEffect(() => {
     const loadTodos = async () => {
       try {
@@ -34,36 +34,36 @@ function Home() {
 
   return (
     <>
-      <main className="max-w-4xl mx-auto p-6 bg-white mt-6">
-        <table className="min-w-full bg-white border border-gray-300 mb-4">
+      <section id="home">
+        <table className="table table-bordered table-hover mb-4">
           <thead>
-            <tr className="bg-gray-200 text-gray-700 uppercase text-sm leading-normal">
-              <th className="py-3 px-6 text-left">Id</th>
-              <th className="py-3 px-6 text-left">Category</th>
-              <th className="py-3 px-6 text-left">Title</th>
-              <th className="py-3 px-6 text-left">Detail</th>
-              <th className="py-3 px-6 text-left">URL</th>
-              <th className="py-3 px-6 text-left">Date</th>
+            <tr className="table-light">
+              <th scope="col">Id</th>
+              <th scope="col">Category</th>
+              <th scope="col">Title</th>
+              <th scope="col">Detail</th>
+              <th scope="col">URL</th>
+              <th scope="col">Date</th>
             </tr>
           </thead>
           <tbody>
             {todos.map((todo) => (
-              <tr key={todo.id} className="border-b border-gray-300 hover:bg-gray-100">
-                <td className="py-3 px-6">{todo.id}</td>
-                <td className="py-3 px-6">{categoryMap[todo.category]}</td>
-                <td className="py-3 px-6">{todo.title}</td>
-                <td className="py-3 px-6">{todo.detail}</td>
-                <td className="py-3 px-6">
+              <tr key={todo.id}>
+                <td>{todo.id}</td>
+                <td>{categoryMap[todo.category]}</td>
+                <td>{todo.title}</td>
+                <td>{todo.detail}</td>
+                <td>
                   <a href={todo.url} target="_blank" rel="noopener noreferrer">
                     {todo.url}
                   </a>
                 </td>
-                <td className="py-3 px-6">{formatDate(todo.deadline)}</td>
+                <td>{formatDate(todo.deadline)}</td>
               </tr>
             ))}
           </tbody>
         </table>
-      </main>
+      </section>
     </>
   )
 }

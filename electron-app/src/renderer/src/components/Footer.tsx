@@ -2,7 +2,7 @@ import Versions from './Versions'
 
 function Footer(): JSX.Element {
   return (
-    <footer className="footer">
+    <footer className="text-center p-4">
       <Versions />
       <small>Electron Todo App</small>
     </footer>

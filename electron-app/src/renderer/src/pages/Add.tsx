@@ -40,73 +40,82 @@ function Add() {
       console.error('Error:', error)
     }
   }
+
   return (
     <>
-      <main>
-        <section id="addTodo">
-          <h2 className="text-xl mb-4">Add a New Todo</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label htmlFor="title">Title</label>
-              <input
-                id="title"
-                name="title"
-                value={newTodo.title}
-                onChange={handleInputChange}
-                className="border"
-              />
-            </div>
-            <div>
-              <label htmlFor="detail">Detail</label>
-              <textarea
-                id="detail"
-                name="detail"
-                value={newTodo.detail}
-                onChange={handleInputChange}
-                className="border"
-              ></textarea>
-            </div>
-            <div>
-              <label htmlFor="url">URL</label>
-              <input
-                id="url"
-                name="url"
-                value={newTodo.url}
-                onChange={handleInputChange}
-                className="border"
-              />
-            </div>
-            <div>
-              <label htmlFor="deadline">Deadline</label>
-              <input
-                type="date"
-                id="deadline"
-                name="deadline"
-                value={formatDate(newTodo.deadline)}
-                onChange={handleInputChange}
-                className="border"
-              />
-            </div>
-            <div>
-              <label htmlFor="category">Category</label>
-              <select
-                id="category"
-                name="category"
-                value={newTodo.category}
-                onChange={handleInputChange}
-                className="border"
-              >
-                <option value="1">Category1</option>
-                <option value="2">Category2</option>
-                <option value="3">Category3</option>
-              </select>
-            </div>
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2">
-              Add Todo
-            </button>
-          </form>
-        </section>
-      </main>
+      <section id="addTodo">
+        <h2 className="text-xl mb-4">Add a New Todo</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="mb-3">
+            <label htmlFor="title" className="form-label">
+              Title
+            </label>
+            <input
+              id="title"
+              name="title"
+              value={newTodo.title}
+              onChange={handleInputChange}
+              className="form-control"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="detail" className="form-label">
+              Detail
+            </label>
+            <textarea
+              id="detail"
+              name="detail"
+              value={newTodo.detail}
+              onChange={handleInputChange}
+              className="form-control"
+            ></textarea>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="url" className="form-label">
+              URL
+            </label>
+            <input
+              id="url"
+              name="url"
+              value={newTodo.url}
+              onChange={handleInputChange}
+              className="form-control"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="deadline" className="form-label">
+              Deadline
+            </label>
+            <input
+              type="date"
+              id="deadline"
+              name="deadline"
+              value={formatDate(newTodo.deadline)}
+              onChange={handleInputChange}
+              className="form-control"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="category" className="form-label">
+              Category
+            </label>
+            <select
+              id="category"
+              name="category"
+              value={newTodo.category}
+              onChange={handleInputChange}
+              className="form-select"
+            >
+              <option value="1">Category1</option>
+              <option value="2">Category2</option>
+              <option value="3">Category3</option>
+            </select>
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Add Todo
+          </button>
+        </form>
+      </section>
     </>
   )
 }
