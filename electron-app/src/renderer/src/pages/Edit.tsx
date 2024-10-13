@@ -96,7 +96,7 @@ const Edit = () => {
   return (
     <>
       <section id="editTodo">
-        <h2 className="text-xl mb-4">Edit Todo</h2>
+        <h2 className="mb-4">Edit Todo</h2>
         <form onSubmit={saveEdit} className="space-y-4">
           <div className="mb-3">
             <label htmlFor="title" className="form-label">
