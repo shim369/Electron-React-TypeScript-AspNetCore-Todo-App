@@ -1,12 +1,15 @@
-.font-small {
+.font-small,
+.font-small select {
   font-size: 12px;
 }
 
-.font-normal {
+.font-normal,
+.font-normal select {
   font-size: 16px;
 }
 
-.font-big {
+.font-big,
+.font-big select {
   font-size: 20px;
 }
 
