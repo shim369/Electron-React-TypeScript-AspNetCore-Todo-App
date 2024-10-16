@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Todo } from '../../../types/todo'
 import { formatDate } from '@renderer/utils/dateUtils'
 
 const Edit = () => {

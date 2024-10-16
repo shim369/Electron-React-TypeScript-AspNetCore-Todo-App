@@ -1,4 +1,3 @@
-import { Todo } from '../../../types/todo'
 import { useState } from 'react'
 
 function Add() {

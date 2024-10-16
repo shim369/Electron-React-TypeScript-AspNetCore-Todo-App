@@ -1,4 +1,4 @@
-export interface Todo {
+interface Todo {
   id: number;
   category: number;
   title: string;

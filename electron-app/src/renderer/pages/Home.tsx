@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Todo } from '../../../types/todo'
 import { useNavigate } from 'react-router-dom'
 import { formatDate } from '@renderer/utils/dateUtils'
 
