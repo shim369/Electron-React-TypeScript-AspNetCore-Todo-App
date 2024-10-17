@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { formatDate } from '@renderer/utils/dateUtils'
 
-function Home() {
+const Home = () => {
   const [todos, setTodos] = useState<Todo[]>([])
   const [selectedCategory, setSelectedCategory] = useState(localStorage.getItem('category') || '0')
 

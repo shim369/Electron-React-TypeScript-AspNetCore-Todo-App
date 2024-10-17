@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-function Add() {
+const Add = () => {
   const [newTodo, setNewTodo] = useState<Todo>({
     id: 0,
     category: 1,

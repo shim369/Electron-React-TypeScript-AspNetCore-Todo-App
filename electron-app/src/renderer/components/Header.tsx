@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-function Header(): JSX.Element {
+const Header = () => {
   return (
     <header className="shadow d-flex justify-content-between align-items-center p-4">
       <h1 className="font-bold">

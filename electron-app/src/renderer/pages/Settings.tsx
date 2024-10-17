@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-function Settings() {
+const Settings = () => {
   const [category, setCategory] = useState(localStorage.getItem('category') || '0')
   const [font, setFont] = useState(localStorage.getItem('font') || 'normal')
 
