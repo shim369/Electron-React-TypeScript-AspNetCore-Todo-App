@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { formatDate } from '@renderer/utils/dateUtils'
+import PageTitle from '@renderer/components/PageTitle'
 
 const Edit = () => {
   const { id } = useParams<{ id: string }>()
@@ -95,7 +96,7 @@ const Edit = () => {
   return (
     <>
       <section id="editTodo">
-        <h2 className="mb-4">Edit Todo</h2>
+        <PageTitle title="Edit Todo" />
         <form onSubmit={saveEdit} className="space-y-4">
           <div className="mb-3">
             <label htmlFor="title" className="form-label">

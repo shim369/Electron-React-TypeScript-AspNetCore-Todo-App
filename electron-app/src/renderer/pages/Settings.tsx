@@ -1,3 +1,4 @@
+import PageTitle from '@renderer/components/PageTitle'
 import { useEffect, useState } from 'react'
 
 const Settings = () => {
@@ -29,7 +30,7 @@ const Settings = () => {
   return (
     <>
       <section id="settings">
-        <h2 className="mb-4">Settings</h2>
+        <PageTitle title="Settings" />
         <div className="d-flex justify-content-between align-items-center">
           <label htmlFor="category" className="form-label">
             Category

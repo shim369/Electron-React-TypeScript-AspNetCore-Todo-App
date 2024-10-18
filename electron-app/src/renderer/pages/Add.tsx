@@ -1,3 +1,4 @@
+import PageTitle from '@renderer/components/PageTitle'
 import { useState } from 'react'
 
 const Add = () => {
@@ -43,7 +44,7 @@ const Add = () => {
   return (
     <>
       <section id="addTodo">
-        <h2 className="mb-4">Add Todo</h2>
+        <PageTitle title="Add Todo" />
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="mb-3">
             <label htmlFor="title" className="form-label">
