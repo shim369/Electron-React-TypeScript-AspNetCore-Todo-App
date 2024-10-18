@@ -37,6 +37,12 @@ const Home = () => {
     return todo.category === parseInt(selectedCategory, 10)
   })
 
+  const ascTimeSort = (a: Date, b: Date) => {
+    return a > b ? 1 : -1
+  }
+
+  filteredTodos.sort((a, b) => ascTimeSort(a.deadline, b.deadline))
+
   const handleDelete = async (id: number) => {
     try {
       const response = await fetch(`http://localhost:5266/tasks/${id}`, {
@@ -65,7 +71,7 @@ const Home = () => {
               <th scope="col">Title</th>
               <th scope="col">Detail</th>
               <th scope="col">URL</th>
-              <th scope="col">Date</th>
+              <th scope="col">Deadline</th>
               <th scope="col">Edit</th>
               <th scope="col">Delete</th>
             </tr>
