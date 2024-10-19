@@ -2,22 +2,39 @@ import { Link } from 'react-router-dom'
 
 const Header = () => {
   return (
-    <header className="shadow d-flex justify-content-between align-items-center p-4">
-      <h1 className="font-bold">
-        <Link to="/" className="text-dark text-decoration-none">
-          Electron Todo App
-        </Link>
-      </h1>
-      <nav>
-        <Link to="/" className="me-4 text-dark text-decoration-none">
-          Home
-        </Link>
-        <Link to="/task/add" className="me-4 text-dark text-decoration-none">
-          Add Todo
-        </Link>
-        <Link to="/settings" className="text-dark text-decoration-none">
-          Settings
-        </Link>
+    <header>
+      <nav className="shadow navbar navbar-expand-lg bg-body-tertiary">
+        <div className="container-fluid">
+          <h1 className="font-bold m-0">
+            <Link to="/" className="text-dark text-decoration-none">
+              Electron Todo App
+            </Link>
+          </h1>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div className="navbar-nav ms-auto">
+              <Link to="/" className="nav-link active">
+                Home
+              </Link>
+              <Link to="/task/add" className="nav-link">
+                Add Todo
+              </Link>
+              <Link to="/settings" className="nav-link">
+                Settings
+              </Link>
+            </div>
+          </div>
+        </div>
       </nav>
     </header>
   )
