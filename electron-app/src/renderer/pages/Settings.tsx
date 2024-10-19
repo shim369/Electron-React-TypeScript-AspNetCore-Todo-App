@@ -2,11 +2,9 @@ import PageTitle from '@renderer/components/PageTitle'
 import { useEffect, useState } from 'react'
 
 const Settings = () => {
-  const [category, setCategory] = useState(localStorage.getItem('category') || '0')
   const [font, setFont] = useState(localStorage.getItem('font') || 'normal')
 
   useEffect(() => {
-    localStorage.setItem('category', category)
     localStorage.setItem('font', font)
 
     document.body.classList.remove('font-small', 'font-normal', 'font-big')
@@ -17,11 +15,7 @@ const Settings = () => {
     } else if (font === 'big') {
       document.body.classList.add('font-big')
     }
-  }, [category, font])
-
-  const handleCategoryChange = (event) => {
-    setCategory(event.target.value)
-  }
+  }, [font])
 
   const handleFontChange = (event) => {
     setFont(event.target.value)
@@ -31,23 +25,6 @@ const Settings = () => {
     <>
       <section id="settings">
         <PageTitle title="Settings" />
-        <div className="d-flex justify-content-between align-items-center">
-          <label htmlFor="category" className="form-label">
-            Category
-          </label>
-          <select
-            name="category"
-            id="category"
-            className="form-control w-25"
-            value={category}
-            onChange={handleCategoryChange}
-          >
-            <option value="0">All</option>
-            <option value="1">Category1</option>
-            <option value="2">Category2</option>
-            <option value="3">Category3</option>
-          </select>
-        </div>
         <div className="d-flex justify-content-between align-items-center mt-4">
           <label htmlFor="font" className="form-label">
             Font
