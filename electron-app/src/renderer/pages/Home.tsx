@@ -53,6 +53,12 @@ const Home = () => {
     2: filteredTodos.filter((todo) => todo.status === 2).length
   }
 
+  const ascTimeSort = (a: Date, b: Date) => {
+    return a > b ? 1 : -1
+  }
+
+  filteredTodos.sort((a, b) => ascTimeSort(a.deadline, b.deadline))
+
   const data = {
     labels: ['Incomplete', 'Working', 'Complete'],
     datasets: [
