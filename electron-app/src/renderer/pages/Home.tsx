@@ -1,20 +1,18 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import {
-  fetchTodos,
-  deleteTodo,
-  setSelectedCategory,
-  updateStatusCounts
-} from '@renderer/store/todosSlice'
+import { fetchTodos, deleteTodo, setSelectedCategory } from '@renderer/store/todosSlice'
 import PageTitle from '@renderer/components/PageTitle'
 import { Pie } from 'react-chartjs-2'
 import { formatDate } from '@renderer/utils/dateUtils'
 import { AppDispatch, RootState } from '@renderer/store'
+import { Chart, registerables } from 'chart.js'
+
+Chart.register(...registerables)
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { todos, selectedCategory, statusCounts } = useSelector((state: RootState) => state.todos)
+  const { todos, selectedCategory } = useSelector((state: RootState) => state.todos)
   const navigate = useNavigate()
 
   const categoryMap: Record<number, string> = {
@@ -31,7 +29,6 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(fetchTodos())
-    dispatch(updateStatusCounts())
   }, [dispatch])
 
   const handleDelete = (id: number) => {
@@ -50,11 +47,11 @@ const Home = () => {
     selectedCategory === '0' ? true : todo.category === parseInt(selectedCategory, 10)
   )
 
-  const ascTimeSort = (a: Date, b: Date) => {
-    return a > b ? 1 : -1
+  const statusCounts = {
+    0: filteredTodos.filter((todo) => todo.status === 0).length,
+    1: filteredTodos.filter((todo) => todo.status === 1).length,
+    2: filteredTodos.filter((todo) => todo.status === 2).length
   }
-
-  filteredTodos.sort((a, b) => ascTimeSort(a.deadline, b.deadline))
 
   const data = {
     labels: ['Incomplete', 'Working', 'Complete'],
@@ -78,7 +75,7 @@ const Home = () => {
             </div>
           </div>
           <div className="w-50">
-            <PageTitle title="Task Status Distribution" />
+            <PageTitle title="Category Selection" />
             <div className="d-flex justify-content-between align-items-center">
               <label htmlFor="category" className="form-label">
                 Category
