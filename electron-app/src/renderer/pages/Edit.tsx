@@ -1,103 +1,44 @@
-import { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
-import { formatDate } from '@renderer/utils/dateUtils'
+import { fetchTodos, updateTodo } from '@renderer/store/todosSlice'
+import { AppDispatch, RootState } from '@renderer/store'
 import PageTitle from '@renderer/components/PageTitle'
 
 const Edit = () => {
   const { id } = useParams<{ id: string }>()
+  const dispatch = useDispatch<AppDispatch>()
+  const todos = useSelector((state: RootState) => state.todos.todos)
   const navigate = useNavigate()
-  const [todo, setTodo] = useState<Todo | null>(null)
-  const [editTitle, setEditTitle] = useState('')
-  const [editDetail, setEditDetail] = useState('')
-  const [editUrl, setEditUrl] = useState('')
-  const [editDeadline, setEditDeadline] = useState('')
-  const [editCategory, setEditCategory] = useState('1')
-  const [editStatus, setEditStatus] = useState('0')
+
+  const [editTodo, setEditTodo] = useState<Todo | null>(null)
 
   useEffect(() => {
-    const loadTodo = async () => {
-      try {
-        const response = await fetch(`http://localhost:5266/tasks/${id}`)
-        if (!response.ok) throw new Error('Network response was not ok')
-        const data = await response.json()
-        setTodo(data)
-        setEditTitle(data.title)
-        setEditDetail(data.detail)
-        setEditUrl(data.url)
-        setEditDeadline(formatDate(data.deadline))
-        setEditCategory(data.category.toString())
-        setEditStatus(data.status.toString())
-      } catch (error) {
-        console.error('Error:', error)
+    if (!todos.length) {
+      dispatch(fetchTodos())
+    } else {
+      const todo = todos.find((t) => t.id === Number(id))
+      if (todo) {
+        setEditTodo(todo)
       }
     }
-    loadTodo()
-  }, [id])
+  }, [todos, dispatch, id])
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = event.target
-    switch (name) {
-      case 'title':
-        setEditTitle(value)
-        break
-      case 'detail':
-        setEditDetail(value)
-        break
-      case 'url':
-        setEditUrl(value)
-        break
-      case 'deadline':
-        setEditDeadline(value)
-        break
-      case 'category':
-        setEditCategory(value)
-        break
-      case 'status':
-        setEditStatus(value)
-        break
-      default:
-        break
+    if (editTodo) {
+      setEditTodo({ ...editTodo, [name]: value })
     }
   }
 
   const saveEdit = async (event: React.FormEvent) => {
     event.preventDefault()
-    if (!todo) return
-
-    const updatedTodo = {
-      ...todo,
-      title: editTitle,
-      detail: editDetail,
-      url: editUrl,
-      deadline: new Date(editDeadline).toISOString(),
-      category: editCategory,
-      status: editStatus
-    }
-
-    try {
-      const response = await fetch(`http://localhost:5266/tasks/${todo.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedTodo)
-      })
-
-      if (!response.ok) throw new Error('Failed to update todo')
-
-      navigate('/')
-    } catch (error) {
-      console.error('Error:', error)
-    }
-  }
-
-  const cancelEdit = () => {
+    if (!editTodo) return
+    dispatch(updateTodo(editTodo))
     navigate('/')
   }
-
-  if (!todo) return <div>Loading...</div>
 
   return (
     <>
@@ -111,7 +52,7 @@ const Edit = () => {
             <input
               id="title"
               name="title"
-              value={editTitle}
+              value={editTodo?.title || ''}
               onChange={handleInputChange}
               className="form-control"
             />
@@ -123,7 +64,7 @@ const Edit = () => {
             <textarea
               id="detail"
               name="detail"
-              value={editDetail}
+              value={editTodo?.detail || ''}
               onChange={handleInputChange}
               className="form-control"
             ></textarea>
@@ -135,7 +76,7 @@ const Edit = () => {
             <input
               id="url"
               name="url"
-              value={editUrl}
+              value={editTodo?.url || ''}
               onChange={handleInputChange}
               className="form-control"
             />
@@ -148,7 +89,9 @@ const Edit = () => {
               type="date"
               id="deadline"
               name="deadline"
-              value={editDeadline}
+              value={
+                editTodo?.deadline ? new Date(editTodo.deadline).toISOString().split('T')[0] : ''
+              }
               onChange={handleInputChange}
               className="form-control"
             />
@@ -160,7 +103,7 @@ const Edit = () => {
             <select
               id="category"
               name="category"
-              value={editCategory}
+              value={editTodo?.category || ''}
               onChange={handleInputChange}
               className="form-select"
             >
@@ -176,7 +119,7 @@ const Edit = () => {
             <select
               id="status"
               name="status"
-              value={editStatus}
+              value={editTodo?.status || ''}
               onChange={handleInputChange}
               className="form-select"
             >
@@ -187,9 +130,6 @@ const Edit = () => {
           </div>
           <button type="submit" className="me-2 btn btn-primary">
             Save
-          </button>
-          <button type="button" onClick={cancelEdit} className="btn btn-secondary">
-            Cancel
           </button>
         </form>
       </section>

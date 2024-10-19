@@ -1,17 +1,20 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { formatDate } from '@renderer/utils/dateUtils'
-import { Pie } from 'react-chartjs-2'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import {
+  fetchTodos,
+  deleteTodo,
+  setSelectedCategory,
+  updateStatusCounts
+} from '@renderer/store/todosSlice'
 import PageTitle from '@renderer/components/PageTitle'
-
-ChartJS.register(ArcElement, Tooltip, Legend)
+import { Pie } from 'react-chartjs-2'
+import { formatDate } from '@renderer/utils/dateUtils'
+import { AppDispatch, RootState } from '@renderer/store'
 
 const Home = () => {
-  const [todos, setTodos] = useState<Todo[]>([])
-  const [selectedCategory, setSelectedCategory] = useState(localStorage.getItem('category') || '0')
-  // const [category, setCategory] = useState(localStorage.getItem('category') || '0')
-
+  const dispatch = useDispatch<AppDispatch>()
+  const { todos, selectedCategory, statusCounts } = useSelector((state: RootState) => state.todos)
   const navigate = useNavigate()
 
   const categoryMap: Record<number, string> = {
@@ -27,27 +30,25 @@ const Home = () => {
   }
 
   useEffect(() => {
-    const loadTodos = async () => {
-      try {
-        const response = await fetch('http://localhost:5266/tasks')
-        if (!response.ok) throw new Error('Network response was not ok')
-        const data = await response.json()
-        setTodos(data)
-      } catch (error) {
-        console.error('Error:', error)
-      }
-    }
-    loadTodos()
-  }, [])
+    dispatch(fetchTodos())
+    dispatch(updateStatusCounts())
+  }, [dispatch])
 
-  const filteredTodos = todos.filter((todo) => {
-    if (selectedCategory === '0') {
-      console.log(setSelectedCategory)
-      return true
-    }
-    console.log(setSelectedCategory)
-    return todo.category === parseInt(selectedCategory, 10)
-  })
+  const handleDelete = (id: number) => {
+    dispatch(deleteTodo(id))
+  }
+
+  const handleEdit = (id: number) => {
+    navigate(`/task/edit/${id}`)
+  }
+
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch(setSelectedCategory(event.target.value))
+  }
+
+  const filteredTodos = todos.filter((todo) =>
+    selectedCategory === '0' ? true : todo.category === parseInt(selectedCategory, 10)
+  )
 
   const ascTimeSort = (a: Date, b: Date) => {
     return a > b ? 1 : -1
@@ -55,46 +56,17 @@ const Home = () => {
 
   filteredTodos.sort((a, b) => ascTimeSort(a.deadline, b.deadline))
 
-  const handleDelete = async (id: number) => {
-    try {
-      const response = await fetch(`http://localhost:5266/tasks/${id}`, {
-        method: 'DELETE'
-      })
-      if (!response.ok) throw new Error('Failed to delete the task')
-
-      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id))
-    } catch (error) {
-      console.error('Error deleting todo:', error)
-    }
-  }
-
-  const handleEdit = (id: number) => {
-    navigate(`/task/edit/${id}`)
-  }
-
-  const statusCounts = todos.reduce(
-    (acc, todo) => {
-      acc[todo.status] += 1
-      return acc
-    },
-    { 0: 0, 1: 0, 2: 0 }
-  )
-
   const data = {
     labels: ['Incomplete', 'Working', 'Complete'],
     datasets: [
       {
         label: 'Task Status',
         data: [statusCounts[0], statusCounts[1], statusCounts[2]],
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
       }
     ]
   }
 
-  const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value)
-  }
   return (
     <>
       <section id="home">
@@ -106,7 +78,7 @@ const Home = () => {
             </div>
           </div>
           <div className="w-50">
-            <PageTitle title="Sort tasks" />
+            <PageTitle title="Task Status Distribution" />
             <div className="d-flex justify-content-between align-items-center">
               <label htmlFor="category" className="form-label">
                 Category
@@ -126,6 +98,7 @@ const Home = () => {
             </div>
           </div>
         </div>
+
         <PageTitle title="Task List" />
         <table className="table table-bordered table-hover mb-4">
           <thead>
