@@ -4,6 +4,7 @@ import { useState } from 'react'
 const Add = () => {
   const [newTodo, setNewTodo] = useState<Todo>({
     id: 0,
+    status: 0,
     category: 1,
     title: '',
     detail: '',
@@ -35,7 +36,15 @@ const Add = () => {
       if (!response.ok) throw new Error('Network response was not ok')
       const data = await response.json()
       console.log('Todo added:', data)
-      setNewTodo({ id: 0, title: '', detail: '', url: '', deadline: new Date(), category: 1 })
+      setNewTodo({
+        id: 0,
+        status: 0,
+        title: '',
+        detail: '',
+        url: '',
+        deadline: new Date(),
+        category: 1
+      })
     } catch (error) {
       console.error('Error:', error)
     }
@@ -109,6 +118,22 @@ const Add = () => {
               <option value="1">Category1</option>
               <option value="2">Category2</option>
               <option value="3">Category3</option>
+            </select>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="status" className="form-label">
+              Status
+            </label>
+            <select
+              id="status"
+              name="status"
+              value={newTodo.status}
+              onChange={handleInputChange}
+              className="form-select"
+            >
+              <option value="0">Incomplete</option>
+              <option value="1">Working</option>
+              <option value="2">Complete</option>
             </select>
           </div>
           <button type="submit" className="btn btn-primary">

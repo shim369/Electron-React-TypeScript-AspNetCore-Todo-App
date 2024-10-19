@@ -12,6 +12,7 @@ namespace AspNetCoreApi.Data
     public class TaskItem
     {
         public int Id { get; set; }
+        public int Status { get; set; }
         public int Category { get; set; }
         public required string Title { get; set; }
         public required string Detail { get; set; }

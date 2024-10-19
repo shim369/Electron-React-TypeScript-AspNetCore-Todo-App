@@ -12,6 +12,7 @@ const Edit = () => {
   const [editUrl, setEditUrl] = useState('')
   const [editDeadline, setEditDeadline] = useState('')
   const [editCategory, setEditCategory] = useState('1')
+  const [editStatus, setEditStatus] = useState('0')
 
   useEffect(() => {
     const loadTodo = async () => {
@@ -25,6 +26,7 @@ const Edit = () => {
         setEditUrl(data.url)
         setEditDeadline(formatDate(data.deadline))
         setEditCategory(data.category.toString())
+        setEditStatus(data.status.toString())
       } catch (error) {
         console.error('Error:', error)
       }
@@ -52,6 +54,9 @@ const Edit = () => {
       case 'category':
         setEditCategory(value)
         break
+      case 'status':
+        setEditStatus(value)
+        break
       default:
         break
     }
@@ -67,7 +72,8 @@ const Edit = () => {
       detail: editDetail,
       url: editUrl,
       deadline: new Date(editDeadline).toISOString(),
-      category: editCategory
+      category: editCategory,
+      status: editStatus
     }
 
     try {
@@ -161,6 +167,22 @@ const Edit = () => {
               <option value="1">Category1</option>
               <option value="2">Category2</option>
               <option value="3">Category3</option>
+            </select>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="status" className="form-label">
+              Status
+            </label>
+            <select
+              id="status"
+              name="status"
+              value={editStatus}
+              onChange={handleInputChange}
+              className="form-select"
+            >
+              <option value="0">Incomplete</option>
+              <option value="1">Working</option>
+              <option value="2">Complete</option>
             </select>
           </div>
           <button type="submit" className="me-2 btn btn-primary">

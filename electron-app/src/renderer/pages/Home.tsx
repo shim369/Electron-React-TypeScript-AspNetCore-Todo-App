@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { formatDate } from '@renderer/utils/dateUtils'
+import { Pie } from 'react-chartjs-2'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import PageTitle from '@renderer/components/PageTitle'
+
+ChartJS.register(ArcElement, Tooltip, Legend)
 
 const Home = () => {
   const [todos, setTodos] = useState<Todo[]>([])
@@ -12,6 +17,12 @@ const Home = () => {
     1: 'category1',
     2: 'category2',
     3: 'category3'
+  }
+
+  const statusMap: Record<number, string> = {
+    0: 'Incomplete',
+    1: 'Working',
+    2: 'Complete'
   }
 
   useEffect(() => {
@@ -60,13 +71,38 @@ const Home = () => {
     navigate(`/task/edit/${id}`)
   }
 
+  const statusCounts = todos.reduce(
+    (acc, todo) => {
+      acc[todo.status] += 1
+      return acc
+    },
+    { 0: 0, 1: 0, 2: 0 }
+  )
+
+  const data = {
+    labels: ['Incomplete', 'Working', 'Complete'],
+    datasets: [
+      {
+        label: 'Task Status',
+        data: [statusCounts[0], statusCounts[1], statusCounts[2]],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+      }
+    ]
+  }
   return (
     <>
       <section id="home">
+        <PageTitle title="Task Status Distribution" />
+        <div className="chart-container">
+          <Pie data={data} />
+        </div>
+        <PageTitle title="Task List" />
         <table className="table table-bordered table-hover mb-4">
           <thead>
             <tr className="table-light">
               <th scope="col">Id</th>
+              <th scope="col">Status</th>
               <th scope="col">Category</th>
               <th scope="col">Title</th>
               <th scope="col">Detail</th>
@@ -80,6 +116,7 @@ const Home = () => {
             {filteredTodos.map((todo) => (
               <tr key={todo.id}>
                 <td>{todo.id}</td>
+                <td>{statusMap[todo.status]}</td>
                 <td>{categoryMap[todo.category]}</td>
                 <td>{todo.title}</td>
                 <td>{todo.detail}</td>

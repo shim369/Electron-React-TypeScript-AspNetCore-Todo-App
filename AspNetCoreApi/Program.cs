@@ -85,7 +85,7 @@ app.MapPut("/tasks/{id}", async (AppDbContext db, int id, TaskItem updatedTask) 
 {
     var task = await db.Tasks.FindAsync(id);
     if (task is null) return Results.NotFound();
-
+    task.Status = updatedTask.Status;
     task.Category = updatedTask.Category;
     task.Title = updatedTask.Title;
     task.Detail = updatedTask.Detail;
